@@ -7,20 +7,36 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/home/joe/Projects/Textime/textime.rb",
+			"settings":
+			{
+				"buffer_size": 1021,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/joe/Dropbox/mobile/Work time.txt",
+			"settings":
+			{
+				"buffer_size": 198,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 145,
+		"height": 164,
 		"selected_items":
 		[
 			[
-				"save",
-				"Project: Save As"
-			],
-			[
 				"instal",
 				"Package Control: Install Package"
+			],
+			[
+				"save",
+				"Project: Save As"
 			],
 			[
 				"inst",
@@ -47,7 +63,7 @@
 				"Package Control: Upgrade/Overwrite All Packages"
 			]
 		],
-		"width": 449
+		"width": 530
 	},
 	"console":
 	{
@@ -89,6 +105,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"key",
+			"round.to_s",
+			"to_time",
 			"api.github.com",
 			"Kronuz",
 			"sublimelint",
@@ -101,6 +120,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"duration",
+			"12hourDivide",
+			"to_time",
+			"to_hours"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -111,8 +134,61 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/home/joe/Projects/Textime/textime.rb",
+					"settings":
+					{
+						"buffer_size": 1021,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								867,
+								867
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0,
+						"translation.y": 118,
+						"zoom_level": 1
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/joe/Dropbox/mobile/Work time.txt",
+					"settings":
+					{
+						"buffer_size": 198,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								198,
+								198
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0,
+						"translation.y": 0,
+						"zoom_level": 1
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -147,9 +223,13 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 160
+	},
 	"replace":
 	{
-		"height": 0
+		"height": 62
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -171,6 +251,6 @@
 	"show_minimap": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150,
+	"side_bar_width": 248,
 	"status_bar_visible": true
 }
