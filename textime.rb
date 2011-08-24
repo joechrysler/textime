@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 class String
 	def to_hours()
 		times = self.split(':')
@@ -8,23 +10,27 @@ end
 class Float
 	def to_time(duration=false)
 		integer_part = self.floor
-		integer_part = self.floor - 12 if self.floor > 12 unless duration
 		decimal_part = self - self.floor
 		(integer_part).to_s.rjust(2, ' ') + ':' + (decimal_part*60).round.to_s.rjust(2, '0')
 	end
 end
 
-
-f = File.new('worktime.txt', 'r')
-lines = f.readlines
+last_time = 0.0
+days_so_far = 0
 total = 0.0
-IO.foreach 'worktime.txt' do |line|
+
+input_file = ARGV[0] || 'sample.txt'
+
+IO.foreach input_file do |line|
 	fields = line.split(' ')
 	if fields.length == 0
-		print "Total: #{total.to_time(true)}".rjust(34) + "\n"
+		puts "Total: #{total.to_time(true)}".rjust(34)
+		puts " ".rjust(34)
+		last_time = total
 		total = 0.0
+		days_so_far = 0 if days_so_far == 5
 	end
-	if fields.length >= 5
+	if fields[0] =~ /\d+\/\d+/
 		print fields[0] + ' '
 		clock_in  = fields[1].to_hours
 		lunch_out = fields[2].to_hours
@@ -34,8 +40,14 @@ IO.foreach 'worktime.txt' do |line|
 		duration = (lunch_out - clock_in) + (clock_out - back_in)
 		total += duration
 
-		print clock_in.to_time + ' ' + lunch_out.to_time + ' ' + back_in.to_time + ' ' + clock_out.to_time + ' ' + duration.to_time.rjust(5, ' ')
+		puts clock_in.to_time + ' ' + lunch_out.to_time + ' ' + back_in.to_time + ' ' + clock_out.to_time + ' ' + duration.to_time.rjust(5, ' ')
+		days_so_far += 1
 	end
 
-	print "\n"
 end
+
+total_remaining = 40 - last_time
+daily_remaining = total_remaining / (5 - days_so_far)
+
+print "Remaining: #{total_remaining.to_time(true)}".rjust(34) + "\n"
+print "Each day: #{daily_remaining.to_time(true)}".rjust(34) + "\n"
