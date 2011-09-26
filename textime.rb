@@ -4,7 +4,7 @@ class String
 	def to_hours()
 		times = self.split(':')
 		times[0].to_f + times[1].to_f/60
-	end	
+	end
 end
 
 class Float
@@ -28,7 +28,7 @@ IO.foreach input_file do |line|
 		puts " ".rjust(34)
 		last_time = total
 		total = 0.0
-		days_so_far = 0 if days_so_far == 5
+		days_so_far = 0 if days_so_far == 5 or days_so_far == 3
 	end
 	if fields[0] =~ /\d+\/\d+/
 		print fields[0] + ' '
@@ -46,8 +46,13 @@ IO.foreach input_file do |line|
 
 end
 
-total_remaining = 40 - last_time
-daily_remaining = total_remaining / (5 - days_so_far)
+if days_so_far < 3 
+	total_remaining = 30 - last_time
+	daily_remaining = total_remaining / (3 - days_so_far)
+else
+	total_remaining = 40 - last_time
+	daily_remaining = total_remaining / (5 - days_so_far)
+end
 
 print "Remaining: #{total_remaining.to_time(true)}".rjust(34) + "\n"
 print "Each day: #{daily_remaining.to_time(true)}".rjust(34) + "\n"
