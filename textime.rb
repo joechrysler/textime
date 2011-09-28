@@ -1,9 +1,15 @@
 #!/usr/bin/env ruby
 
+require "./config"
+
 class String
 	def to_hours()
 		times = self.split(':')
 		times[0].to_f + times[1].to_f/60
+	end
+
+	def seperates_weeks?
+		return self.length == 1
 	end
 end
 
@@ -15,44 +21,61 @@ class Float
 	end
 end
 
-last_time = 0.0
-days_so_far = 0
-total = 0.0
 
-input_file = ARGV[0] || 'sample.txt'
+class Textime
+	attr_accessor :days_so_far, :total
 
-IO.foreach input_file do |line|
-	fields = line.split(' ')
-	if fields.length == 0
-		puts "Total: #{total.to_time(true)}".rjust(34)
+	def initialize
+		@days_so_far = 0
+		@total = 0.0
+	end
+
+	def process
+		input_file = ARGV[0] || $config[:timecard_path]
+
+		IO.foreach input_file do |today|
+			if today.seperates_weeks?
+				process_last_week
+			else
+				t = hours_worked today
+				puts "#{today[0..-2]} #{t.to_time}"
+				@total += t
+				@days_so_far += 1
+			end
+		end
+
+		summarize
+	end
+
+	def hours_worked day
+		times = day.split(' ')
+		duration = 0
+
+		if times[0] =~ /\d+\/\d+/
+			arrive = times[1].to_hours
+			lunchtime = times[2].to_hours
+			backToWork = times[3].to_hours
+			leave = times[4].to_hours
+
+			duration = (lunchtime - arrive) + (leave - backToWork)
+		end
+		return duration
+	end
+
+	def process_last_week
+		puts "Total: #{@total.to_time(true)}".rjust(34)
 		puts " ".rjust(34)
-		last_time = total
-		total = 0.0
-		days_so_far = 0 if days_so_far == 5 or days_so_far == 3
-	end
-	if fields[0] =~ /\d+\/\d+/
-		print fields[0] + ' '
-		clock_in  = fields[1].to_hours
-		lunch_out = fields[2].to_hours
-		back_in   = fields[3].to_hours
-		clock_out  = fields[4].to_hours
-
-		duration = (lunch_out - clock_in) + (clock_out - back_in)
-		total += duration
-
-		puts clock_in.to_time + ' ' + lunch_out.to_time + ' ' + back_in.to_time + ' ' + clock_out.to_time + ' ' + duration.to_time.rjust(5, ' ')
-		days_so_far += 1
+		@total = 0.0
+		@days_so_far = 0
 	end
 
+	def summarize
+		total_remaining = $config[:hoursInAWeek] - @total
+		daily_remaining = total_remaining / ($config[:daysInAWeek] - @days_so_far)
+
+		print "Remaining: #{Float(total_remaining).to_time(true)}".rjust(34) + "\n"
+		print "Each day: #{daily_remaining.to_time(true)}".rjust(34) + "\n"
+	end
 end
 
-if days_so_far < 3 
-	total_remaining = 30 - last_time
-	daily_remaining = total_remaining / (3 - days_so_far)
-else
-	total_remaining = 40 - last_time
-	daily_remaining = total_remaining / (5 - days_so_far)
-end
-
-print "Remaining: #{total_remaining.to_time(true)}".rjust(34) + "\n"
-print "Each day: #{daily_remaining.to_time(true)}".rjust(34) + "\n"
+Textime.new.process
