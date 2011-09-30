@@ -71,10 +71,17 @@ class Textime
 
 	def summarize
 		total_remaining = $config[:hoursInAWeek] - @total
-		daily_remaining = total_remaining / ($config[:daysInAWeek] - @days_so_far)
+		remaining_days = $config[:daysInAWeek] - @days_so_far
 
-		print "Remaining: #{Float(total_remaining).to_time(true)}".rjust(34) + "\n"
-		print "Each day: #{daily_remaining.to_time(true)}".rjust(34) + "\n"
+		if remaining_days == 0
+			daily_remaining = total_remaining
+			puts "Total: #{@total.to_time(true)}".rjust(34)
+
+		else
+			daily_remaining = total_remaining / remaining_days
+			puts "Remaining: #{Float(total_remaining).to_time(true)}".rjust(34)
+			puts "Each day: #{daily_remaining.to_time(true)}".rjust(34)
+		end
 	end
 end
 
