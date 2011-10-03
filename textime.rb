@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "./config"
+# test
 
 class String
 	def to_hours()
