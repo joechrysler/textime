@@ -80,8 +80,12 @@ class Textime
 
 		else
 			daily_remaining = total_remaining / remaining_days
-			puts "Remaining: #{Float(total_remaining).to_time(true)}".rjust(34)
-			puts "Each day: #{daily_remaining.to_time(true)}".rjust(34)
+
+			puts
+			puts "#{Float($config[:hoursInAWeek] - total_remaining).to_time(true)} so far".rjust(34)
+			puts "#{Float(total_remaining).to_time(true)} to go".rjust(34)
+			puts "#{daily_remaining.to_time(true)} per day".rjust(34) if remaining_days > 1
+			puts
 		end
 	end
 end
