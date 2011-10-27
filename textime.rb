@@ -10,7 +10,7 @@ class String
 	end
 
 	def seperates_weeks?
-		return self.length == 1
+		self.length == 1
 	end
 end
 
@@ -60,7 +60,8 @@ class Textime
 
 			duration = (lunchtime - arrive) + (leave - backToWork)
 		end
-		return duration
+		
+		duration
 	end
 
 	def process_last_week
